@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIFT Guardian - Self-Correcting Incident Response</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Command Bar -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-shield">
+                    <span class="shield-icon">🛡️</span>
+                </div>
+                <div>
+                    <h1>SIFT GUARDIAN</h1>
+                    <p class="subtitle">Self-Correcting Multi-Agent Incident Response System</p>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="clock-widget" id="utcClock">UTC 00:00:00</div>
+                <div class="system-status">
+                    <span class="status-dot pulse-idle" id="statusDot"></span>
+                    <span class="status-text" id="statusText">System Idle</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            
+            <!-- Left Panel: Control & Intake -->
+            <section class="panel control-panel">
+                <div class="card">
+                    <h2>Case Intake</h2>
+                    <div class="quick-templates">
+                        <label>Threat Profiles</label>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline" onclick="loadTemplate('powershell')">PowerShell Execution</button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="loadTemplate('word')">Phishing Attachment</button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="loadTemplate('w3wp')">IIS Web Shell</button>
+                        </div>
+                    </div>
+                    <form id="caseForm" onsubmit="runInvestigation(event)">
+                        <div class="form-group">
+                            <label for="caseName">Case Identifier</label>
+                            <input type="text" id="caseName" placeholder="e.g. COMPROMISED-ENDPOINT-01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="caseData">Telemetry / Command Payload</label>
+                            <textarea id="caseData" rows="4" placeholder="powershell.exe -enc ..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="deployBtn">
+                            <span>🚀 Deploy Tactical Agents</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Agent Telemetry Flow Node Map -->
+                <div class="card agent-flow-card">
+                    <h2>Agent Workspace Topology</h2>
+                    <div class="agent-nodes">
+                        <!-- Investigator Node -->
+                        <div class="agent-node" id="node-Investigator">
+                            <span class="node-icon">🔍</span>
+                            <span class="node-name">Investigator</span>
+                            <span class="node-status">STDBY</span>
+                        </div>
+                        
+                        <!-- Skeptic Node -->
+                        <div class="agent-node" id="node-Skeptic">
+                            <span class="node-icon">⚖️</span>
+                            <span class="node-name">Skeptic</span>
+                            <span class="node-status">STDBY</span>
+                        </div>
+
+                        <!-- Verifier Node -->
+                        <div class="agent-node" id="node-Verifier">
+                            <span class="node-icon">✅</span>
+                            <span class="node-name">Verifier</span>
+                            <span class="node-status">STDBY</span>
+                        </div>
+
+                        <!-- Reporter Node -->
+                        <div class="agent-node" id="node-Reporter">
+                            <span class="node-icon">📝</span>
+                            <span class="node-name">Reporter</span>
+                            <span class="node-status">STDBY</span>
+                        </div>
+
+                        <!-- Connections -->
+                        <div class="connector connector-1" id="conn-1"></div>
+                        <div class="connector connector-2" id="conn-2"></div>
+                        <div class="connector connector-3" id="conn-3"></div>
+                        <div class="connector-loop" id="conn-loop">
+                            <span class="loop-arrow">↩️ Correction Loop</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Middle Panel: Agent Output Console -->
+            <section class="panel console-panel">
+                <div class="card terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="terminal-title">SecOps Log stream</div>
+                    </div>
+                    <div class="terminal-body" id="consoleLogs">
+                        <div class="log-line system">[SYSTEM] SIFT Guardian active. Load a threat profile and deploy tactical agents.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: intelligence Advisory Report -->
+            <section class="panel report-panel">
+                <div class="card report-card">
+                    <div class="report-header">
+                        <h2>Intelligence Advisory</h2>
+                        <button class="btn btn-sm btn-outline" id="downloadBtn" onclick="downloadReport()" disabled>📥 Export MD</button>
+                    </div>
+                    <div class="report-body" id="reportContent">
+                        <div class="report-placeholder">
+                            <div class="placeholder-icon">📋</div>
+                            <p>No intelligence generated. Populate threat data and run the pipeline.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

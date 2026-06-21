@@ -1,0 +1,776 @@
+/* SIFT Guardian - Tactical Cyber-Defense Command Center Theme */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+    --bg-dark: #03050a;
+    --panel-bg: #070b12;
+    --border-color: #162032;
+    --border-glow: #1e3a5f;
+    --text-primary: #f8fafc;
+    --text-muted: #475569;
+    --text-dim: #94a3b8;
+    
+    /* Tactical Palette */
+    --cyber-cyan: #00f0ff;
+    --cyber-amber: #f59e0b;
+    --cyber-emerald: #10b981;
+    --cyber-purple: #a855f7;
+    --cyber-red: #ef4444;
+    
+    /* Agents Mapping */
+    --agent-sys: #64748b;
+    --agent-investigator: var(--cyber-cyan);
+    --agent-skeptic: var(--cyber-amber);
+    --agent-verifier: var(--cyber-emerald);
+    --agent-reporter: var(--cyber-purple);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    /* Tactical grid background */
+    background-image: 
+        linear-gradient(rgba(22, 32, 50, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 32, 50, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Scanline and tactical screen overlay */
+body::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 9999;
+    background-size: 100% 3px, 6px 100%;
+    pointer-events: none;
+    opacity: 0.15;
+}
+
+.app-container {
+    width: 98vw;
+    max-width: 1750px;
+    height: 96vh;
+    margin: 2vh auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Header - Command Bar */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    position: relative;
+}
+
+.app-header::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 20px;
+    width: 80px;
+    height: 2px;
+    background: var(--cyber-cyan);
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-shield {
+    width: 32px;
+    height: 32px;
+    background: var(--border-color);
+    border: 1px solid var(--cyber-cyan);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+}
+
+.shield-icon {
+    font-size: 1rem;
+}
+
+.logo-area h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-area h1::after {
+    content: "SEC-OPS // UNIT 04";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+}
+
+.subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 0.1rem;
+}
+
+.header-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.clock-widget {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.clock-widget::before {
+    content: "⏱️";
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.4rem 0.8rem;
+    border-radius: 2px;
+    border: 1px solid var(--border-color);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 0; /* Sharp tactical square */
+}
+
+.pulse-idle {
+    background-color: var(--text-muted);
+    box-shadow: 0 0 6px var(--text-muted);
+}
+
+.pulse-active {
+    background-color: var(--cyber-cyan);
+    box-shadow: 0 0 10px var(--cyber-cyan);
+    animation: tacticalPulse 1.2s infinite;
+}
+
+.pulse-correcting {
+    background-color: var(--cyber-amber);
+    box-shadow: 0 0 10px var(--cyber-amber);
+    animation: tacticalPulse 1.2s infinite;
+}
+
+.pulse-success {
+    background-color: var(--cyber-emerald);
+    box-shadow: 0 0 10px var(--cyber-emerald);
+}
+
+@keyframes tacticalPulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+.status-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Workspace Layout */
+.workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 27% 35% 38%;
+    gap: 1rem;
+    height: calc(100% - 70px);
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+/* Tactical Panel/Card Styling */
+.card {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Corner bracket details for tactical look */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid var(--border-glow);
+    border-left: 2px solid var(--border-glow);
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid var(--border-glow);
+    border-right: 2px solid var(--border-glow);
+}
+
+.card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.card h2::before {
+    content: "[//]";
+    color: var(--cyber-cyan);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+}
+
+/* Quick Templates Selector */
+.quick-templates {
+    margin-bottom: 1rem;
+}
+
+.quick-templates label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* Inputs & Form Groups */
+.form-group {
+    margin-bottom: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-group label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+}
+
+input[type="text"], textarea {
+    background-color: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    padding: 0.6rem;
+    color: #f1f5f9;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus, textarea:focus {
+    border-color: var(--cyber-cyan);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
+}
+
+/* Buttons */
+.btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+}
+
+.btn-primary {
+    background-color: var(--cyber-cyan);
+    color: #03050a;
+    border: 1px solid var(--cyber-cyan);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: transparent;
+    color: var(--cyber-cyan);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-dim);
+}
+
+.btn-outline:hover:not(:disabled) {
+    border-color: var(--cyber-cyan);
+    color: #fff;
+    background-color: rgba(0, 240, 255, 0.02);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Agent Node Diagram - Tactical Grid */
+.agent-flow-card {
+    flex: 1;
+}
+
+.agent-nodes {
+    position: relative;
+    height: 100%;
+    min-height: 280px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    justify-items: center;
+    padding: 0.5rem;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 12px 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.04);
+}
+
+.agent-node {
+    width: 110px;
+    height: 70px;
+    border: 1px solid var(--border-color);
+    background-color: rgba(3, 5, 10, 0.85);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0.5rem 0.75rem;
+    z-index: 2;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.node-icon {
+    font-size: 0.85rem;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+
+.node-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+}
+
+.node-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+}
+
+/* Active States */
+#node-Investigator.active {
+    border-color: var(--agent-investigator);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+}
+#node-Investigator.active .node-name { color: var(--agent-investigator); }
+#node-Investigator.active .node-status { color: var(--agent-investigator); }
+
+#node-Skeptic.active {
+    border-color: var(--agent-skeptic);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+}
+#node-Skeptic.active .node-name { color: var(--agent-skeptic); }
+#node-Skeptic.active .node-status { color: var(--agent-skeptic); }
+
+#node-Verifier.active {
+    border-color: var(--agent-verifier);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+}
+#node-Verifier.active .node-name { color: var(--agent-verifier); }
+#node-Verifier.active .node-status { color: var(--agent-verifier); }
+
+#node-Reporter.active {
+    border-color: var(--agent-reporter);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.15);
+}
+#node-Reporter.active .node-name { color: var(--agent-reporter); }
+#node-Reporter.active .node-status { color: var(--agent-reporter); }
+
+/* Grid Connectors */
+.connector {
+    position: absolute;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+
+/* Horizontal connectors */
+.connector-1 {
+    top: 28%;
+    left: 45%;
+    width: 10%;
+    height: 1px;
+}
+
+.connector-3 {
+    bottom: 28%;
+    right: 45%;
+    width: 10%;
+    height: 1px;
+}
+
+/* Vertical connector */
+.connector-2 {
+    top: 36%;
+    left: 72%;
+    width: 1px;
+    height: 28%;
+}
+
+/* Self-Correction loop path - stylized tactical box line */
+.connector-loop {
+    position: absolute;
+    bottom: 36%;
+    left: 27%;
+    width: 1px;
+    height: 28%;
+    border-left: 1px dashed var(--border-color);
+    z-index: 1;
+    opacity: 0.3;
+}
+
+.loop-arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    white-space: nowrap;
+    position: absolute;
+    left: 8px;
+    top: 40%;
+    color: var(--cyber-amber);
+    text-transform: uppercase;
+}
+
+.connector.active-flow {
+    background-color: var(--cyber-cyan);
+}
+
+.connector-loop.active-flow {
+    border-left-color: var(--cyber-amber);
+    opacity: 1;
+}
+
+/* Middle Panel: Console / Log Stream */
+.terminal {
+    background-color: #020306;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    background: #06090e;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 0.35rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 0;
+}
+
+.red { background-color: var(--cyber-red); }
+.yellow { background-color: var(--cyber-amber); }
+.green { background-color: var(--cyber-emerald); }
+
+.terminal-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.terminal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Log Streams styling */
+.log-line {
+    border-left: 2px solid transparent;
+    padding-left: 0.5rem;
+}
+
+.log-line.system {
+    border-color: var(--agent-sys);
+    color: #475569;
+}
+
+.log-line.investigator {
+    border-color: var(--agent-investigator);
+    color: #a5f3fc;
+}
+
+.log-line.skeptic {
+    border-color: var(--agent-skeptic);
+    color: #fef08a;
+}
+
+.log-line.verifier {
+    border-color: var(--agent-verifier);
+    color: #a7f3d0;
+}
+
+.log-line.reporter {
+    border-color: var(--agent-reporter);
+    color: #f3e8ff;
+}
+
+/* Right Panel: Incident Advisory */
+.report-card {
+    height: 100%;
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.report-header h2::before {
+    content: "[INTEL]";
+    color: var(--cyber-purple);
+}
+
+.report-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+}
+
+.report-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: var(--text-muted);
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.placeholder-icon {
+    font-size: 2rem;
+    opacity: 0.2;
+}
+
+/* Styled rendered advisory markdown */
+.report-markdown {
+    color: var(--text-dim);
+}
+
+.report-markdown h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.75rem;
+    color: #fff;
+}
+
+.report-markdown h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.report-markdown h2::before {
+    content: ">>";
+    color: var(--cyber-cyan);
+}
+
+.report-markdown h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 0.75rem;
+    margin-bottom: 0.35rem;
+}
+
+.report-markdown p {
+    margin-bottom: 0.6rem;
+    line-height: 1.5;
+}
+
+.report-markdown ul {
+    margin-left: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.report-markdown li {
+    margin-bottom: 0.3rem;
+}
+
+.report-markdown blockquote {
+    border-left: 2px solid var(--cyber-cyan);
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+}
+
+.report-markdown code {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 0.1rem 0.25rem;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    color: var(--cyber-cyan);
+}
+
+.report-markdown hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-glow);
+}
+
+/* Responsive */
+@media (max-width: 1250px) {
+    .workspace {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .app-container {
+        height: auto;
+    }
+}
