@@ -18,7 +18,7 @@ Modern SOC analysts are overwhelmed by security alerts. Traditional Security Orc
 
 ## 🗺️ System Topology & Agent Architecture
 
-SIFT Guardian implements a directed cognitive pipeline with an active feedbaack loop:
+SIFT Guardian implements a directed cognitive pipeline with an active feedback loop:
 
 ```mermaid
 graph TD
